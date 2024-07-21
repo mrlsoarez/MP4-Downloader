@@ -1,2 +1,2 @@
 # MP4-Downloader
-This is a web based app built using Python to download Youtube videos
+This is a web based app built using Django to download Youtube videos
