@@ -8,5 +8,16 @@
 <body>
     <h1> Yay, sucess</h1>
     <img src = "{{img}}">
+    <form action = '/dir/download' method = 'POST'>
+        {% csrf_token %}
+        <input value = "{{link}}">
+        <select>
+            {% for option in options %}
+                <option name = 'option'>{{ option }}</option>
+            {% endfor %}
+        </select>
+        <input type = "submit">
+    </form>
+    
 </body>
 </html>

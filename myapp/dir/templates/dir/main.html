@@ -7,10 +7,19 @@
 </head>
 <body>
     <h1> Youtube web app </h1>
-    <form action = '/dir/get-link' method = 'POST'>
-        {% csrf_token %}
-        {{form}}
-        <input type = "submit">
-    </form>
+    
+    {% if link_found %}
+
+        <img src = "{{img}}">
+
+        <br>
+        <form action = '/dir/download' method = 'POST'>
+            {% csrf_token %}
+            {{form}}
+            <input type = "submit" value = "DOWNLOAD">
+        </form>
+    {% else %}
+
+    {% endif %}
 </body>
 </html>
