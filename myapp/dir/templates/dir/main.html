@@ -3,23 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Youtube Web App</title>
+    <style>
+
+        * {
+            font-family: 'Courier New';
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: orangered;
+            padding: 1.5rem;
+            color: white;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            background: red;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        main > .Form-Section, 
+        main >.Form-Section > form {
+            display: flex;
+        }
+
+
+        main > .Form-Section.One > form {
+            flex-direction: column;
+            align-self: center;
+        }
+
+        main .Form-Section > form > label {
+            display: none;
+        }
+
+        main > .Form-Section > form > input {
+            height: 3.5rem;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+    
+        main > .Form-Section.Two > form {
+            display: flex;
+            gap: 1.65rem;
+        }
+
+               
+        main > .Form-Section.Two > form > select {
+            width: 10rem;   
+        }
+
+       
+
+    </style>
 </head>
 <body>
-    <h1> Youtube web app </h1>
-    
-    {% if link_found %}
-
-        <img src = "{{img}}">
-
-        <br>
-        <form action = '/dir/download' method = 'POST'>
-            {% csrf_token %}
-            {{form}}
-            <input type = "submit" value = "DOWNLOAD">
-        </form>
-    {% else %}
-
-    {% endif %}
+    <header>
+        <h1> Youtube web app </h1>
+    </header>
+    <main>
+        {% if link_found %} 
+            <h1> Your video was found! Ready to download?</h1>
+            <img src = "{{img}}"> 
+            <div class = 'Form-Section Two'>
+                <form action = '/dir/download' method = 'POST'>
+                    {% csrf_token %}
+                    {{form}}
+                    <input type = "submit" value = "DOWNLOAD">
+                </form>
+            </div>   
+        {% else %} 
+            <div class = 'Form-Section One'>
+                <h2> Download your favorite youtube videos!</h2>
+                <form action = '/dir/get-link' method = 'POST'>
+                    {% csrf_token %}
+                    {{form}}
+                    <input type = "submit" value = "DOWNLOAD">
+                </form>
+            </div>
+        
+        {% endif %}
+    </main>
 </body>
 </html>

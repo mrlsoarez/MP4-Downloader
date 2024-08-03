@@ -11,6 +11,7 @@ import os
 from pytubefix import YouTube
 
 yt = None
+
 def get_link(request):
     global yt
     if request.method == "POST":
@@ -21,7 +22,8 @@ def get_link(request):
             options = []
             try:
                 for obj in yt.streams:
-                    options.append((str(obj.itag), obj))
+                    if (obj.mime_type == 'video/mp4' and obj.itag != 18):
+                       options.append((str(obj.itag), obj.resolution))
                 form = NameForm2(choices=options)
                 form.fields['my_field'].choices = options
                 return render(request, "dir/main.html", {"img": yt.thumbnail_url, "link_found": True, "form": form})
@@ -36,7 +38,7 @@ def get_link(request):
 def download(request):
     print(yt, 'link')
     def get_download_folder():
-        home_directory = os.path.expanduser('~')  # Obtém o diretório home do usuário
+        home_directory = os.path.expanduser('~')  
         downloads_folder = os.path.join(home_directory, 'Downloads')
         return downloads_folder
     
@@ -45,9 +47,15 @@ def download(request):
         tag = form['my_field'].value()
         stream = yt.streams.get_by_itag(tag)
         folder = get_download_folder()
-        stream.download(folder, yt.title)
+        try:
+            stream.download(folder, yt.title)
+            print(tag)
+        except:
+            return HttpResponse('ERRO!')
+        else:
+            form = NameForm(request.POST)
+            return render(request, "dir/main.html", {"link_found": False, "form": form})
         
-    return HttpResponse("Eu to fenol")
 
 
 
